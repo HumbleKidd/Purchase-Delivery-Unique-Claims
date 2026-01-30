@@ -45,7 +45,6 @@
             letter-spacing: 1.5px;
         }
 
-        /* RESTORED: Italic, Thinner, Nice Style */
         .sub-headline {
             font-size: 0.9rem;
             color: var(--text-sub);
@@ -109,7 +108,6 @@
             position: relative;
         }
 
-        /* Verification Card - Restored */
         .verification-border {
             border: 2px dashed var(--success);
             background: #f0fff4;
@@ -163,22 +161,6 @@
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 800;
-        }
-
-        .portal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 2000;
-            background: white;
-        }
-
-        .portal-header {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .dock {
@@ -278,27 +260,19 @@
 
         <div class="section-title">Step 3: Tracking</div>
 
-        <div class="option-card" onclick="openPortal()">
+        <div class="option-card" onclick="openExternalTracker()">
             <div style="display: flex; align-items: center; gap: 15px;">
                 <div style="font-size: 2rem;">🚚</div>
                 <div style="flex: 1;">
                     <h4 style="margin: 0;">Track My Package</h4>
                     <p style="font-size: 0.85rem; color: var(--text-sub); margin: 4px 0;">Knutsford Express Islandwide Tracking.</p>
-                    <div class="tap-hint">Tap to open delivery tracker</div>
+                    <div class="tap-hint">Tap to open external delivery tracker</div>
                 </div>
                 <svg class="chevron" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"></path></svg>
             </div>
         </div>
 
         <div style="height: 120px;"></div>
-    </div>
-
-    <div id="portal" class="portal-overlay">
-        <div class="portal-header">
-            <strong style="color: var(--primary);">Islandwide Tracking Portal</strong>
-            <button onclick="closePortal()" style="border:none; background:#eee; padding: 10px 18px; border-radius: 12px; font-weight: 800; cursor: pointer;">CLOSE</button>
-        </div>
-        <iframe src="https://www.knutsfordexpress.com/courier/track-your-packages/" style="width:100%; height:calc(100% - 65px); border:none;"></iframe>
     </div>
 
     <div class="dock">
@@ -310,6 +284,7 @@
 <script>
     (function ShieldedLogic() {
         const phone = "18765813521";
+        const trackerUrl = "https://www.knutsfordexpress.com/courier/track-your-packages/";
 
         window.toggleBank = function(card) {
             const details = document.getElementById('bank-details');
@@ -319,8 +294,10 @@
             chevron.classList.toggle('rotated', !isOpen);
         };
 
-        window.openPortal = function() { document.getElementById('portal').style.display = 'block'; };
-        window.closePortal = function() { document.getElementById('portal').style.display = 'none'; };
+        // FIXED: Opens in a new tab to avoid frame errors
+        window.openExternalTracker = function() { 
+            window.open(trackerUrl, '_blank');
+        };
 
         window.copyText = function(text, e) {
             e.stopPropagation();
