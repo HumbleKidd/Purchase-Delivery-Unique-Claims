@@ -3,50 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Purchase & Tracking Portal</title>
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlB1cmNoYXNlIFBvcnRhbCIsCiAgInNob3J0X25hbWUiOiAiT3JkZXJzIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwRDBEMEQiLAogICJ0aGVtZV9jb2xvciI6ICIjMEQwRDBEIgp9">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNlYW1sZXNzIE9yZGVyIFBvcnRhbCIsCiAgInNob3J0X25hbWUiOiAiT3JkZXJzIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmOGY5ZmEiLAogICJ0aGVtZV9jb2xvciI6ICIjMDA3MWNlIgp9">
     
     <style>
         :root {
-            --primary: #0071ce; /* NCB Blue */
-            --accent: #ffcc00; /* Gold accent */
-            --bg: #0d0d0d;
-            --card-bg: #1a1a1a;
-            --text: #ffffff;
-            --text-dim: #a0a0a0;
+            --primary: #0071ce; 
+            --accent: #ffcc00; 
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-sub: #555555;
             --success: #28a745;
+            --warning: #e67e22;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
         #ARMOR_WRAPPER {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
             background-color: var(--bg);
-            color: var(--text);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Master Dashboard / Header */
-        .master-header {
-            background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
+        .master-nav {
+            background: #ffffff;
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            box-shadow: var(--shadow);
         }
 
-        .brand-heading {
-            font-weight: 800;
-            font-size: 1.2rem;
-            letter-spacing: -0.5px;
+        .main-headline {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
             margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* RESTORED: Italic, Thinner, Nice Style */
+        .sub-headline {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-top: 5px;
+            font-weight: 300;
+            font-style: italic;
+            letter-spacing: 0.5px;
         }
 
         .container {
@@ -55,257 +61,280 @@
             margin: 0 auto;
         }
 
-        /* Hot Product Alert */
-        .hot-alert {
-            background: linear-gradient(45deg, #ff4e50, #f9d423);
-            border-radius: 12px;
-            padding: 15px;
+        .spotlight-card {
+            background: linear-gradient(135deg, #0071ce 0%, #00569d 100%);
+            color: white;
+            border-radius: 18px;
+            padding: 22px;
             margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,113,206,0.3);
             display: flex;
             align-items: center;
             gap: 15px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        /* Purchase Path Selection */
-        .path-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .path-card {
-            background: var(--card-bg);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.2s;
         }
 
-        .path-card:hover, .path-card:focus {
-            border-color: var(--primary);
-            background: #252525;
-            outline: none;
+        .spotlight-card:active { transform: scale(0.97); }
+
+        .policy-banner {
+            background: #fff4e5;
+            border-left: 5px solid var(--warning);
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 0.85rem;
+            color: #856404;
+            line-height: 1.5;
         }
 
-        .path-card h3 {
-            margin: 0 0 10px 0;
-            color: var(--accent);
+        .section-title {
+            font-weight: 800;
+            margin: 30px 0 15px 0;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* Bank Transfer System */
-        #bank-portal {
-            display: none;
-            background: #111;
-            border-radius: 20px;
+        .option-card {
+            background: var(--card-bg);
+            border-radius: 16px;
             padding: 20px;
-            margin-top: 15px;
-            border: 1px dashed var(--primary);
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
         }
 
-        .bank-data-row {
+        /* Verification Card - Restored */
+        .verification-border {
+            border: 2px dashed var(--success);
+            background: #f0fff4;
+        }
+
+        .ncb-tag {
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            font-weight: 900;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .tap-hint {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 12px;
+        }
+
+        #bank-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .data-row {
             display: flex;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid #222;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f8f8f8;
         }
 
         .copy-btn {
-            background: var(--primary);
-            border: none;
-            color: white;
-            border-radius: 5px;
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            cursor: pointer;
+            background: #eef6ff;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
         }
 
-        /* KX Tracking Frame */
-        .tracking-wrap {
-            height: 0;
-            overflow: hidden;
-            transition: height 0.5s ease;
-            background: white;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-
-        .tracking-wrap.active {
-            height: 600px;
-        }
-
-        /* Action Buttons */
-        .action-bar {
+        .portal-overlay {
+            display: none;
             position: fixed;
-            bottom: 20px;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2000;
+            background: white;
+        }
+
+        .portal-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dock {
+            position: fixed;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
-            max-width: 450px;
+            max-width: 420px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            z-index: 1000;
         }
 
-        .btn {
+        .dock-btn {
             flex: 1;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 18px;
+            border-radius: 15px;
             border: none;
-            font-weight: bold;
+            font-weight: 800;
+            font-size: 0.95rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             cursor: pointer;
             text-decoration: none;
-            color: white;
-            font-size: 0.9rem;
         }
 
-        .btn-call { background: #444; }
-        .btn-wa { background: #25D366; }
+        .btn-black { background: #1a1a1a; color: white; }
+        .btn-green { background: #25D366; color: white; }
 
-        .notice-box {
-            background: rgba(0, 113, 206, 0.1);
-            border-left: 4px solid var(--primary);
-            padding: 15px;
-            margin: 15px 0;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
+        .chevron { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s; }
+        .rotated { transform: rotate(180deg); }
     </style>
 </head>
 <body>
 
 <div id="ARMOR_WRAPPER">
-    <header class="master-header">
-        <p class="brand-heading">PURCHASE & DELIVERY</p>
-        <div id="status-dot" style="width: 10px; height: 10px; background: var(--success); border-radius: 50%;"></div>
-    </header>
+    <nav class="master-nav">
+        <h1 class="main-headline">How To Purchase</h1>
+        <p class="sub-headline">Secure Your Order & Track Your Delivery</p>
+    </nav>
 
     <div class="container">
-        <div class="hot-alert" tabindex="0" onclick="sendInquiry('Projector')">
-            <div style="font-size: 2rem;">🔥</div>
-            <div>
-                <strong style="display: block;">HOT ITEM: Android Smart Projector</strong>
-                <small>Limited Upgraded Remote Packages available. Tap to inquire.</small>
+        <div class="spotlight-card" onclick="triggerWhatsApp('Projector')">
+            <div style="font-size: 2.5rem;">📽️</div>
+            <div style="flex: 1;">
+                <strong style="font-size: 1.2rem; display: block;">Android Smart Projector</strong>
+                <span style="opacity: 0.9; font-size: 0.85rem;">Limited Edition Bundle • Tap to Order</span>
+            </div>
+            <svg class="chevron" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"></path></svg>
+        </div>
+
+        <div class="policy-banner">
+            <strong>Payment Clearance Policy:</strong><br>
+            To ensure secure processing, items are only released once funds have fully cleared and reflected in the account.
+        </div>
+
+        <div class="section-title">Step 1: Payment Method</div>
+        
+        <div class="option-card" onclick="toggleBank(this)">
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <span class="ncb-tag">NCB (RECOMMENDED)</span>
+                    <h4 style="margin: 0; color: var(--primary); font-size: 1.1rem;">Bank Transfer Details</h4>
+                </div>
+                <svg id="bank-chevron" class="chevron" viewBox="0 0 24 24" style="margin-top: 10px; color: var(--primary);"><path d="M6 9l6 6 6-6"></path></svg>
+            </div>
+            <div class="tap-hint">Tap to reveal account info</div>
+            
+            <div id="bank-details">
+                <div style="background: #f0f7ff; padding: 12px; border-radius: 10px; font-size: 0.85rem; margin-bottom: 15px; border: 1px solid #d0e3ff; color: #004a87;">
+                    <strong>Scotia/Other Banks:</strong> Please use <strong>RTGS</strong> for instant reflection. ACH transfers will delay delivery by 24-48 hours.
+                </div>
+                <div class="data-row"><span>Bank:</span> <strong>NCB (Savings)</strong></div>
+                <div class="data-row"><span>Account Name:</span> <strong>Kyle Richards</strong></div>
+                <div class="data-row"><span>Account #:</span> <strong>504913848</strong> <span class="copy-btn" onclick="copyText('504913848', event)">COPY</span></div>
+                <div class="data-row"><span>Branch:</span> <strong>Mandeville Perth Road</strong></div>
             </div>
         </div>
 
-        <section>
-            <h2 style="font-size: 1.1rem; margin-bottom: 15px;">How would you like to purchase?</h2>
-            
-            <div class="path-grid">
-                <div class="path-card" tabindex="0" onclick="toggleBank()">
-                    <h3>Online Bank Transfer</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-dim);">Fastest way to secure your item. Nationwide delivery via Knutsford Express.</p>
-                    <div id="bank-portal">
-                        <div class="notice-box">
-                            <strong>Note for Scotia Users:</strong> Please use <strong>RTGS</strong> for instant reflection. ACH takes 24-48 hours and will delay your delivery.
-                        </div>
-                        <div class="bank-data-row">
-                            <span>Bank:</span> <strong>NCB</strong>
-                        </div>
-                        <div class="bank-data-row">
-                            <span>Name:</span> <strong>Kyle Richards</strong>
-                        </div>
-                        <div class="bank-data-row">
-                            <span>Account #:</span> <strong>504913848</strong>
-                            <button class="copy-btn" onclick="copyData('504913848')">Copy</button>
-                        </div>
-                        <div class="bank-data-row">
-                            <span>Type:</span> <strong>Savings</strong>
-                        </div>
-                        <div class="bank-data-row">
-                            <span>Branch:</span> <strong>Mandeville</strong>
-                        </div>
-                    </div>
-                </div>
+        <div class="section-title">Step 2: Confirm Payment</div>
 
-                <div class="path-card" tabindex="0" onclick="alert('In-Person Pickup: Please WhatsApp me to coordinate a meeting time in Mandeville.')">
-                    <h3>In-Person / Representative</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-dim);">Visit me in Mandeville or send a representative to pick up on your behalf.</p>
+        <div class="option-card verification-border" onclick="triggerWhatsApp('Receipt')">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="font-size: 2rem;">📸</div>
+                <div style="flex: 1;">
+                    <h4 style="margin: 0; color: var(--success);">Upload Payment Receipt</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-sub); margin: 4px 0;">Share your screenshot to finalize your order.</p>
+                    <div class="tap-hint" style="color: var(--success);">Tap to notify Kyle on WhatsApp</div>
                 </div>
-
-                <div class="path-card" tabindex="0" onclick="toggleTracking()">
-                    <h3>Track My Package</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-dim);">Already paid? Track your Knutsford Express package right here.</p>
-                    <div id="kx-tracker" class="tracking-wrap">
-                        <iframe id="kx-frame" src="" style="width:100%; height:100%; border:none;"></iframe>
-                    </div>
-                </div>
+                <svg class="chevron" viewBox="0 0 24 24" style="color: var(--success);"><path d="M9 18l6-6-6-6"></path></svg>
             </div>
-        </section>
+        </div>
 
-        <div style="height: 100px;"></div> </div>
+        <div class="section-title">Step 3: Tracking</div>
 
-    <div class="action-bar">
-        <a href="tel:18765813521" class="btn btn-call">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79c1.44 2.82 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-            Call
-        </a>
-        <button class="btn btn-wa" onclick="sendInquiry('General')">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.141l-.904 3.313 3.393-.89c.801.435 1.768.702 2.254.702h.001c3.181 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.766-5.769-5.766zm2.82 8.067c-.117.33-.675.641-.931.684-.255.043-.576.087-1.428-.243-1.02-.388-1.674-1.42-1.724-1.488-.05-.068-.415-.552-.415-1.054 0-.503.263-.75.357-.854.093-.105.203-.132.271-.132.067 0 .135 0 .194.003.061.002.143-.023.223.171.08.195.275.67.3.731.025.061.042.133.001.214-.039.081-.061.129-.118.198-.059.069-.12.153-.173.205-.058.058-.12.121-.051.241.069.12.304.502.655.815.452.403.832.528.948.588.117.06.187.051.257-.03.07-.082.298-.348.377-.467.079-.118.158-.099.266-.059.109.04.689.325.808.384.119.059.198.088.227.137.029.049.029.282-.088.612z"/></svg>
-            WhatsApp
-        </button>
+        <div class="option-card" onclick="openPortal()">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="font-size: 2rem;">🚚</div>
+                <div style="flex: 1;">
+                    <h4 style="margin: 0;">Track My Package</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-sub); margin: 4px 0;">Knutsford Express Islandwide Tracking.</p>
+                    <div class="tap-hint">Tap to open delivery tracker</div>
+                </div>
+                <svg class="chevron" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"></path></svg>
+            </div>
+        </div>
+
+        <div style="height: 120px;"></div>
+    </div>
+
+    <div id="portal" class="portal-overlay">
+        <div class="portal-header">
+            <strong style="color: var(--primary);">Islandwide Tracking Portal</strong>
+            <button onclick="closePortal()" style="border:none; background:#eee; padding: 10px 18px; border-radius: 12px; font-weight: 800; cursor: pointer;">CLOSE</button>
+        </div>
+        <iframe src="https://www.knutsfordexpress.com/courier/track-your-packages/" style="width:100%; height:calc(100% - 65px); border:none;"></iframe>
+    </div>
+
+    <div class="dock">
+        <a href="tel:18765813521" class="dock-btn btn-black">Voice Call</a>
+        <button class="dock-btn btn-green" onclick="triggerWhatsApp('General')">WhatsApp</button>
     </div>
 </div>
 
 <script>
     (function ShieldedLogic() {
-        const myNumber = "18765813521";
+        const phone = "18765813521";
 
-        window.toggleBank = function() {
-            const portal = document.getElementById('bank-portal');
-            const isHidden = window.getComputedStyle(portal).display === "none";
-            portal.style.display = isHidden ? "block" : "none";
-            if(isHidden) portal.scrollIntoView({ behavior: 'smooth' });
+        window.toggleBank = function(card) {
+            const details = document.getElementById('bank-details');
+            const chevron = document.getElementById('bank-chevron');
+            const isOpen = details.style.display === 'block';
+            details.style.display = isOpen ? 'none' : 'block';
+            chevron.classList.toggle('rotated', !isOpen);
         };
 
-        window.toggleTracking = function() {
-            const wrap = document.getElementById('kx-tracker');
-            const frame = document.getElementById('kx-frame');
-            if(!wrap.classList.contains('active')) {
-                frame.src = "https://www.knutsfordexpress.com/"; // Integrated tracking page
-                wrap.classList.add('active');
-            } else {
-                wrap.classList.remove('active');
-            }
-        };
+        window.openPortal = function() { document.getElementById('portal').style.display = 'block'; };
+        window.closePortal = function() { document.getElementById('portal').style.display = 'none'; };
 
-        window.copyData = function(text) {
+        window.copyText = function(text, e) {
+            e.stopPropagation();
             navigator.clipboard.writeText(text);
-            alert("Account number copied! Ready for transfer.");
+            alert("Account Number Copied!");
         };
 
-        window.sendInquiry = function(type) {
-            let message = "";
-            if(type === 'Projector') {
-                message = encodeURIComponent("Hi Kyle! I saw your TikTok. I'm interested in the Android Smart Projector + Upgraded Remote package. Is it still available?");
-            } else {
-                message = encodeURIComponent("Hi Kyle! I'm interested in making a purchase. Can you help me with the next steps?");
-            }
-            window.location.href = `https://wa.me/${myNumber}?text=${message}`;
+        window.triggerWhatsApp = function(type) {
+            let msg = "Hi Kyle! ";
+            if(type === 'Projector') msg += "I saw your TikTok! I'm interested in the Android Smart Projector bundle.";
+            else if(type === 'Receipt') msg += "I've just completed my payment! I'm sending my receipt screenshot now to confirm my order.";
+            else msg += "I'm interested in making a purchase from your shop.";
+            window.location.href = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
         };
-
-        // Remote/Keyboard Navigation Support
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                document.activeElement.click();
-            }
-            if (e.key === 'Escape') {
-                document.getElementById('bank-portal').style.display = 'none';
-                document.getElementById('kx-tracker').classList.remove('active');
-            }
-        });
     })();
 </script>
 
