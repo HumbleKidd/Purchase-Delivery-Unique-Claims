@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Purchase & Tracking Portal</title>
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlB1cmNoYXNlIFBvcnRhbCIsCiAgInNob3J0X25hbWUiOiAiT3JkZXJzIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwRDBEMEQiLAogICJ0aGVtZV9jb2xvciI6ICIjMEQwRDBEIgp9">
+    
+    <style>
+        :root {
+            --primary: #0071ce; /* NCB Blue */
+            --accent: #ffcc00; /* Gold accent */
+            --bg: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --text: #ffffff;
+            --text-dim: #a0a0a0;
+            --success: #28a745;
+        }
+
+        #ARMOR_WRAPPER {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Master Dashboard / Header */
+        .master-header {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .brand-heading {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Hot Product Alert */
+        .hot-alert {
+            background: linear-gradient(45deg, #ff4e50, #f9d423);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* Purchase Path Selection */
+        .path-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .path-card {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .path-card:hover, .path-card:focus {
+            border-color: var(--primary);
+            background: #252525;
+            outline: none;
+        }
+
+        .path-card h3 {
+            margin: 0 0 10px 0;
+            color: var(--accent);
+        }
+
+        /* Bank Transfer System */
+        #bank-portal {
+            display: none;
+            background: #111;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 15px;
+            border: 1px dashed var(--primary);
+        }
+
+        .bank-data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        /* KX Tracking Frame */
+        .tracking-wrap {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.5s ease;
+            background: white;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .tracking-wrap.active {
+            height: 600px;
+        }
+
+        /* Action Buttons */
+        .action-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 450px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .btn-call { background: #444; }
+        .btn-wa { background: #25D366; }
+
+        .notice-box {
+            background: rgba(0, 113, 206, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+<div id="ARMOR_WRAPPER">
+    <header class="master-header">
+        <p class="brand-heading">PURCHASE & DELIVERY</p>
+        <div id="status-dot" style="width: 10px; height: 10px; background: var(--success); border-radius: 50%;"></div>
+    </header>
+
+    <div class="container">
+        <div class="hot-alert" tabindex="0" onclick="sendInquiry('Projector')">
+            <div style="font-size: 2rem;">🔥</div>
+            <div>
+                <strong style="display: block;">HOT ITEM: Android Smart Projector</strong>
+                <small>Limited Upgraded Remote Packages available. Tap to inquire.</small>
+            </div>
+        </div>
+
+        <section>
+            <h2 style="font-size: 1.1rem; margin-bottom: 15px;">How would you like to purchase?</h2>
+            
+            <div class="path-grid">
+                <div class="path-card" tabindex="0" onclick="toggleBank()">
+                    <h3>Online Bank Transfer</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">Fastest way to secure your item. Nationwide delivery via Knutsford Express.</p>
+                    <div id="bank-portal">
+                        <div class="notice-box">
+                            <strong>Note for Scotia Users:</strong> Please use <strong>RTGS</strong> for instant reflection. ACH takes 24-48 hours and will delay your delivery.
+                        </div>
+                        <div class="bank-data-row">
+                            <span>Bank:</span> <strong>NCB</strong>
+                        </div>
+                        <div class="bank-data-row">
+                            <span>Name:</span> <strong>Kyle Richards</strong>
+                        </div>
+                        <div class="bank-data-row">
+                            <span>Account #:</span> <strong>504913848</strong>
+                            <button class="copy-btn" onclick="copyData('504913848')">Copy</button>
+                        </div>
+                        <div class="bank-data-row">
+                            <span>Type:</span> <strong>Savings</strong>
+                        </div>
+                        <div class="bank-data-row">
+                            <span>Branch:</span> <strong>Mandeville</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="path-card" tabindex="0" onclick="alert('In-Person Pickup: Please WhatsApp me to coordinate a meeting time in Mandeville.')">
+                    <h3>In-Person / Representative</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">Visit me in Mandeville or send a representative to pick up on your behalf.</p>
+                </div>
+
+                <div class="path-card" tabindex="0" onclick="toggleTracking()">
+                    <h3>Track My Package</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">Already paid? Track your Knutsford Express package right here.</p>
+                    <div id="kx-tracker" class="tracking-wrap">
+                        <iframe id="kx-frame" src="" style="width:100%; height:100%; border:none;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div style="height: 100px;"></div> </div>
+
+    <div class="action-bar">
+        <a href="tel:18765813521" class="btn btn-call">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79c1.44 2.82 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            Call
+        </a>
+        <button class="btn btn-wa" onclick="sendInquiry('General')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.141l-.904 3.313 3.393-.89c.801.435 1.768.702 2.254.702h.001c3.181 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.766-5.769-5.766zm2.82 8.067c-.117.33-.675.641-.931.684-.255.043-.576.087-1.428-.243-1.02-.388-1.674-1.42-1.724-1.488-.05-.068-.415-.552-.415-1.054 0-.503.263-.75.357-.854.093-.105.203-.132.271-.132.067 0 .135 0 .194.003.061.002.143-.023.223.171.08.195.275.67.3.731.025.061.042.133.001.214-.039.081-.061.129-.118.198-.059.069-.12.153-.173.205-.058.058-.12.121-.051.241.069.12.304.502.655.815.452.403.832.528.948.588.117.06.187.051.257-.03.07-.082.298-.348.377-.467.079-.118.158-.099.266-.059.109.04.689.325.808.384.119.059.198.088.227.137.029.049.029.282-.088.612z"/></svg>
+            WhatsApp
+        </button>
+    </div>
+</div>
+
+<script>
+    (function ShieldedLogic() {
+        const myNumber = "18765813521";
+
+        window.toggleBank = function() {
+            const portal = document.getElementById('bank-portal');
+            const isHidden = window.getComputedStyle(portal).display === "none";
+            portal.style.display = isHidden ? "block" : "none";
+            if(isHidden) portal.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.toggleTracking = function() {
+            const wrap = document.getElementById('kx-tracker');
+            const frame = document.getElementById('kx-frame');
+            if(!wrap.classList.contains('active')) {
+                frame.src = "https://www.knutsfordexpress.com/"; // Integrated tracking page
+                wrap.classList.add('active');
+            } else {
+                wrap.classList.remove('active');
+            }
+        };
+
+        window.copyData = function(text) {
+            navigator.clipboard.writeText(text);
+            alert("Account number copied! Ready for transfer.");
+        };
+
+        window.sendInquiry = function(type) {
+            let message = "";
+            if(type === 'Projector') {
+                message = encodeURIComponent("Hi Kyle! I saw your TikTok. I'm interested in the Android Smart Projector + Upgraded Remote package. Is it still available?");
+            } else {
+                message = encodeURIComponent("Hi Kyle! I'm interested in making a purchase. Can you help me with the next steps?");
+            }
+            window.location.href = `https://wa.me/${myNumber}?text=${message}`;
+        };
+
+        // Remote/Keyboard Navigation Support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                document.activeElement.click();
+            }
+            if (e.key === 'Escape') {
+                document.getElementById('bank-portal').style.display = 'none';
+                document.getElementById('kx-tracker').classList.remove('active');
+            }
+        });
+    })();
+</script>
+
+</body>
+</html>
